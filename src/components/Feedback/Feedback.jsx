@@ -1,7 +1,6 @@
 import { ContactForm } from '../ContactForm/ContactForm';
 import { ContactList } from '../ContactList/ContactList';
 import { Filter } from '../Filter/Filter';
-import { Component } from 'react';
 import { useState, useEffect } from 'react';
 
 const USERS_LOCALE_STORAGE_KEY = 'users';
