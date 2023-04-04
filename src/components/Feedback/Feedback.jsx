@@ -6,12 +6,9 @@ import { useState, useEffect } from 'react';
 const USERS_LOCALE_STORAGE_KEY = 'users';
 
 export const Feedbacks = () => {
-  const [contacts, setContacts] = useState([
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ]);
+  const [contacts, setContacts] = useState(() =>
+    JSON.parse(localStorage.getItem(USERS_LOCALE_STORAGE_KEY) ?? [])
+  );
   const [filter, setFilter] = useState('');
 
   const handleFilterChange = event => {
@@ -30,8 +27,9 @@ export const Feedbacks = () => {
   };
 
   const handleSubmit = newContact => {
-    if (contacts.find(contact => contact.name === newContact.name)) {
-      alert(newContact);
+    const { name } = newContact;
+    if (contacts.some(contact => contact.name === newContact.name)) {
+      alert(`${name} контакт вже присутній`);
     } else {
       setContacts(prev => [...prev, newContact]);
     }
@@ -40,15 +38,6 @@ export const Feedbacks = () => {
   const handleDelete = contactName => {
     setContacts(prev => prev.filter(contact => contact.name !== contactName));
   };
-
-  useEffect(() => {
-    const localData = JSON.parse(
-      localStorage.getItem(USERS_LOCALE_STORAGE_KEY)
-    );
-    if (localData) {
-      setContacts(localData);
-    }
-  }, []);
 
   return (
     <div>
